@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 
 const App = () => {
-  const [tasks, setTasks] = useState([]);
+  const [words, setWords] = useState([]);
+  console.log(words ,"words")
 
   useEffect(() => {
-    fetch("/api/tasks")
+    fetch("/api/words")
       .then((res) => res.json())
-      .then((tasks) => {
-        setTasks(tasks);
+      .then((words) => {
+        setWords(words);
       });
   }, []);
 
   return (
     <main>
-      {tasks.map((task) => (
-        <span className="task" key={task.id}>
-          {task.description}
+      {/* {words.map((word) => (
+        <span className="words" key={words.id}>
+          {word.description}
         </span>
-      ))}
+      ))} */}
     </main>
   );
 };
