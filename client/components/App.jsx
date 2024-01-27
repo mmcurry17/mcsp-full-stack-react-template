@@ -5,6 +5,7 @@ import WrongLetters from "./WrongLetters";
 import Word from "./Word";
 import Popup from "./Popup";
 import Notification from "./Notification";
+import { showNotification as show} from "../helper/helper";
 
 
 const App = () => {
@@ -13,7 +14,8 @@ const App = () => {
   const [wrongLetters, setWrongLetters] = useState([])
   const [wordsArr, setWordsArr] = useState([])
   const [selectedWord, setSelectedWord] = useState("");
-  console.log(correctLetters)
+  const [showNotification, setShowNotification] = useState(false);
+  
 
   useEffect(() => {
     const handleKeyDown = event => {
@@ -37,7 +39,7 @@ const App = () => {
         if (!correctLetters.includes(letter)) {
           setCorrectLetters(currentLetters => [...currentLetters, letter]);
         } else {
-          // HANDLE USER INPUT HAS ALREADY BEEN GUESSED
+          show(setShowNotification)
         }
       }
     }
@@ -46,7 +48,7 @@ const App = () => {
       if (!wrongLetters.includes(letter)) {
             setWrongLetters(wrongLetters => [...wrongLetters, letter]);
           } else {
-            // HANDLE IF USER INPUTS INVALID KEY
+            show(setShowNotification)
           }
         }
         
@@ -67,8 +69,8 @@ const App = () => {
       })
       .then((words) => {
         setWordsArr(words);
-        setSelectedWord(words[Math.floor(Math.random() * words.length)].word)
-        // setSelectedWord(words[0].word)
+        // setSelectedWord(words[Math.floor(Math.random() * words.length)].word)
+        setSelectedWord(words[0].word)
       })
       .catch((error) => {
       })
@@ -78,7 +80,7 @@ const App = () => {
     <>
       <Header />
       <div className="game-container">
-        <Figure />
+        <Figure wrongLetters={wrongLetters}/>
         <WrongLetters wrongLetters={wrongLetters}/>
         <Word selectedWord={selectedWord} correctLetters={correctLetters}/>
         {/* <Popup />
